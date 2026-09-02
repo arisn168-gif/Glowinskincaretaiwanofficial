@@ -1,167 +1,768 @@
-<script>
-    // Nomor WhatsApp Penjual
-    const whatsappNumber = "886987803164";
-
-    // Global Variable
-    let activeBrandId = null;
-    let activeCategory = "all";
-
-    // Data Brand & Produk Skintific
-    const brandsData = [
-        {
-            id: "skintific",
-            name: "Skintific",
-            logo: "skintific.jpg", // DIUBAH: dari .png ke .jpg
-            categories: [
-                { id: "all", label: "Semua Kategori" },
-                { id: "set", label: "🎁 Satu Set / Bundle" },
-                { id: "moisturizer", label: "Moisturizer Ceramide" },
-                { id: "serum", label: "Serum Niacinamide" },
-                { id: "cleanser", label: "Cleanser" },
-                { id: "masker", label: "Masker" },
-                { id: "sunscreen", label: "Sunscreen & Cushion" }
-            ],
-            products: [
-                // --- KATEGORI SATU SET / BUNDLE ---
-                {
-                    id: 1001,
-                    name: "Skintific 5X Ceramide Basic Set 3-in-1 (Cleanser + Serum + Moisture Gel)",
-                    category: "set",
-                    price: 1350,
-                    stock: 10,
-                    image: "Skintific5XCeramideBascSet.png"
-                },
-                {
-                    id: 1002,
-                    name: "Skintific RETINOL SET （Cleansing + Toner + Moisturizer + Serum + Sunscreen",
-                    category: "set",
-                    price: 1700,
-                    stock: 1,
-                    image: "Retinolset.png"
-                },
-                {
-                    id: 1003,
-                    name: "Skintific Advance Acne Set (Cleanser + Toner + Moisturizer + Serum + Sunscreen)",
-                    category: "set",
-                    price: 1700,
-                    stock: 5,
-                    image: "advance.png"
-                },
-                {
-                    id: 1004,
-                    name: "SKINTIFIC 5-pcs-(Cleansing + toner + serum+Moisture + Sunscreen)",
-                    category: "set",
-                    price: 1550,
-                    stock: 5,
-                    image: "Sunscreen.png" // Sesuai ekstensi file di folder Anda (.png/.jpeg)
-                },
-
-                // --- SATUAN ---
-                {
-                    id: 101,
-                    name: "Skintific Brightening Cleanser",
-                    category: "cleanser",
-                    price: 470,
-                    stock: 15,
-                    image: "SkintificBrighteningCleanser.png"
-                },
-                {
-                    id: 102,
-                    name: "Skintific Niacinamide Cleanser",
-                    category: "cleanser",
-                    price: 450,
-                    stock: 15,
-                    image: "Niacinamide.png"
-                },
-                {
-                    id: 103,
-                    name: "Skintific Gentle Amino Acid Cleanser",
-                    category: "cleanser",
-                    price: 450,
-                    stock: 20,
-                    image: "SkintificGentleAminoAcidCleanser.png"
-                },
-                {
-                    id: 104,
-                    name: "Skintific Panthenol Foaming Cleanser",
-                    category: "cleanser",
-                    price: 500,
-                    stock: 12,
-                    image: "SkintificPanthenolFoamingCleanser.png"
-                },
-                {
-                    id: 105,
-                    name: "Skintific Biome Cleanser",
-                    category: "cleanser",
-                    price: 500,
-                    stock: 10,
-                    image: "WhiteTruffleCleansing.png"
-                },
-                {
-                    id: 106,
-                    name: "Skintific 5X Ceramide Moisture Gel (Jumbo Size)",
-                    category: "moisturizer",
-                    price: 850,
-                    stock: 10,
-                    image: "Skintific5XceramideMoistureGel.png" // DIUBAH: disesuaikan huruf 'c' kecil
-                },
-                {
-                    id: 107,
-                    name: "Skintific 5X Ceramide Moisture Gel (Normal Size)",
-                    category: "moisturizer",
-                    price: 550,
-                    stock: 25,
-                    image: "skintific1.png"
-                },
-                {
-                    id: 108,
-                    name: "Skintific Lactic Acid Skin Renewal Serum",
-                    category: "serum",
-                    price: 550,
-                    stock: 15,
-                    image: "images.png" // DIUBAH: sesuaikan huruf kecil 'images.png'
-                },
-                {
-                    id: 109,
-                    name: "Skintific Bright Boost Masker Stick (Pink)",
-                    category: "masker",
-                    price: 470,
-                    stock: 18,
-                    image: "SkintificBrightBoostMaskerStick(Pink).png" // DIUBAH: hapus spasi
-                },
-                {
-                    id: 110,
-                    name: "Skintific Mugwort Clay Masker Stick (Ijo)",
-                    category: "masker",
-                    price: 450,
-                    stock: 20,
-                    image: "SkintificMugwortClayMaskerStick(Ijo).png"
-                },
-                {
-                    id: 111,
-                    name: "Skintific Mugwort Clay Masker Stick (abu)",
-                    category: "masker",
-                    price: 450,
-                    stock: 20,
-                    image: "SkintificMugwortClayMaskerStick(Abu).png"
-                },
-                {
-                    id: 112,
-                    name: "Skintific Perfect Stay Velvet Matte Cushion (Biru, Shade 01-05)",
-                    category: "sunscreen",
-                    price: 650,
-                    stock: 15,
-                    image: "cusen.png"
-                },
-                {
-                    id: 113,
-                    name: "Skintific Mugwort Purifying Micellar Water 300ml",
-                    category: "cleanser",
-                    price: 500,
-                    stock: 12,
-                    image: "SkintificMugwortPurifyingMicellarWater300ml.png"
-                }
-            ]
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowinskincare taiwan - Temukan Cahaya Alami Kulitmu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-    ];
-</script>
+
+        body {
+            background-color: #f7f9f7;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #4a6b5d;
+            text-decoration: none;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 500;
+            color: #8fa89b;
+            margin-top: -3px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #4a6b5d;
+        }
+
+        /* Banner Judul */
+        .hero {
+            background: linear-gradient(135deg, #e8f0ec 0%, #f4e9e6 100%);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 26px;
+            color: #354e43;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: #5c7065;
+        }
+
+        /* Container Utama */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Grid Logo Brand */
+        .brand-logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Card Logo Brand */
+        .brand-logo-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .brand-logo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border-color: #8fa89b;
+        }
+
+        .brand-logo-img {
+            max-width: 100%;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .brand-logo-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #354e43;
+        }
+
+        /* Header Khusus Tampilan Produk Brand */
+        .brand-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            padding: 8px 16px;
+            background: #edf2f0;
+            color: #354e43;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-back:hover {
+            background: #e2ebe7;
+        }
+
+        /* Navigasi Filter Kategori */
+        .category-filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            background: #ffffff;
+            border: 1px solid #c8d6cf;
+            border-radius: 20px;
+            color: #4a5568;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #e8f0ec;
+            color: #354e43;
+        }
+
+        .filter-btn.active {
+            background: #5c8374;
+            color: #ffffff;
+            border-color: #5c8374;
+            box-shadow: 0 2px 8px rgba(92, 131, 116, 0.2);
+        }
+
+        /* Grid Produk */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        /* Card Produk */
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #f2f5f3;
+        }
+
+        /* Label Bundle */
+        .badge-bundle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d69e2e;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+
+        .product-details {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #354e43;
+        }
+
+        .product-stock {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: #edf7f2;
+            color: #3b7a57;
+            font-weight: 600;
+        }
+
+        .product-stock.out-of-stock {
+            background: #fde8e8;
+            color: #e53e3e;
+        }
+
+        .btn-buy {
+            width: 100%;
+            padding: 10px;
+            background: #5c8374;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: auto;
+        }
+
+        .btn-buy:hover {
+            background: #46665a;
+        }
+
+        .btn-buy:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        /* Cara Order */
+        .how-to-order {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .how-to-order h2 {
+            font-size: 18px;
+            color: #354e43;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .step-item {
+            text-align: center;
+            padding: 15px;
+            background: #fbfdfc;
+            border-radius: 8px;
+            border: 1px dashed #d5e3dc;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: #8fa89b;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            font-size: 14px;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #edf2f0;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showBrands()">
+                GLOWIN
+                <span>TAIWAN</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#kategori-section" onclick="showBrands()">Semua Brand</a></li>
+                <li><a href="#cara-order">Cara Order</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Glowinskincare taiwan</h1>
+            <p>Klik Logo Brand Favoritmu & Temukan Seluruh Produknya.</p>
+        </div>
+    </section>
+
+    <main class="container">
+
+        <!-- Section Utama -->
+        <div id="kategori-section">
+            <div id="brandHeaderView" style="display: none;" class="brand-view-header">
+                <button class="btn-back" onclick="showBrands()">← Kembali ke Pilihan Brand</button>
+                <h2 class="section-title" id="currentBrandTitle" style="margin-bottom: 0;"></h2>
+                <div></div>
+            </div>
+
+            <h2 class="section-title" id="mainSectionTitle">Pilih Logo Brand</h2>
+
+            <!-- Filter Kategori Produk -->
+            <div id="categoryFilterWrapper" style="display: none;" class="category-filter-container"></div>
+
+            <!-- Container Utama -->
+            <div id="mainContainer"></div>
+        </div>
+
+        <!-- Panduan Order -->
+        <div class="how-to-order" id="cara-order">
+            <h2>Cara Pemesanan Mudah</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Klik <b>Logo Brand</b> pilihan Anda.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Pilih kategori (misal: <b>Satu Set / Bundle</b>) lalu klik <b>Beli Sekarang</b>.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Kirim format pesan otomatis ke WhatsApp kami.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Lakukan pembayaran & barang siap dikirim!</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Glowinskincare taiwan. Minimalist Beauty Solutions.</p>
+    </footer>
+
+    <script>
+        // Nomor WhatsApp Penjual
+        const whatsappNumber = "886987803164";
+
+        // Global Variable
+        let activeBrandId = null;
+        let activeCategory = "all";
+
+        // Data Brand & Produk Skintific
+        const brandsData = [
+            {
+                id: "skintific",
+                name: "Skintific",
+                logo: "skintific.png", // Disesuaikan dengan file di folder
+                categories: [
+                    { id: "all", label: "Semua Kategori" },
+                    { id: "set", label: "🎁 Satu Set / Bundle" },
+                    { id: "moisturizer", label: "Moisturizer Ceramide" },
+                    { id: "serum", label: "Serum Niacinamide" },
+                    { id: "cleanser", label: "Cleanser" },
+                    { id: "masker", label: "Masker" },
+                    { id: "sunscreen", label: "Sunscreen & Cushion" }
+                ],
+                products: [
+                    // --- KATEGORI SATU SET / BUNDLE ---
+                    {
+                        id: 1001,
+                        name: "Skintific 5X Ceramide Basic Set 3-in-1",
+                        category: "set",
+                        price: 1350,
+                        stock: 10,
+                        image: "Skintific5XCeramideBascSet1.png"
+                    },
+                    {
+                        id: 1002,
+                        name: "Skintific RETINOL SET (Cleansing + Toner + Moisturizer + Serum + Sunscreen)",
+                        category: "set",
+                        price: 1700,
+                        stock: 1,
+                        image: "Retinolset.png"
+                    },
+                    {
+                        id: 1003,
+                        name: "Skintific Advance Acne Set",
+                        category: "set",
+                        price: 1700,
+                        stock: 5,
+                        image: "advance.png"
+                    },
+                    {
+                        id: 1004,
+                        name: "SKINTIFIC 5-pcs (Cleansing + Toner + Serum + Moisture + Sunscreen)",
+                        category: "set",
+                        price: 1550,
+                        stock: 5,
+                        image: "Sunscreen.png"
+                    },
+
+                    // --- SATUAN ---
+                    {
+                        id: 101,
+                        name: "Skintific Brightening Cleanser",
+                        category: "cleanser",
+                        price: 470,
+                        stock: 15,
+                        image: "SkintificBrighteningCleanser.png"
+                    },
+                    {
+                        id: 102,
+                        name: "Skintific Niacinamide Cleanser",
+                        category: "cleanser",
+                        price: 450,
+                        stock: 15,
+                        image: "Niacinamide.png"
+                    },
+                    {
+                        id: 103,
+                        name: "Skintific Gentle Amino Acid Cleanser",
+                        category: "cleanser",
+                        price: 450,
+                        stock: 20,
+                        image: "SkintificGentleAminoAcidCleanser.png"
+                    },
+                    {
+                        id: 104,
+                        name: "Skintific Panthenol Foaming Cleanser",
+                        category: "cleanser",
+                        price: 500,
+                        stock: 12,
+                        image: "SkintificPanthenolFoamingCleanser.png"
+                    },
+                    {
+                        id: 105,
+                        name: "Skintific Biome Cleanser",
+                        category: "cleanser",
+                        price: 500,
+                        stock: 10,
+                        image: "WhiteTruffleCleansing.png"
+                    },
+                    {
+                        id: 106,
+                        name: "Skintific 5X Ceramide Moisture Gel",
+                        category: "moisturizer",
+                        price: 550,
+                        stock: 25,
+                        image: "skintific1.png"
+                    },
+                    {
+                        id: 108,
+                        name: "Skintific Lactic Acid Skin Renewal Serum",
+                        category: "serum",
+                        price: 550,
+                        stock: 15,
+                        image: "images.png"
+                    },
+                    {
+                        id: 109,
+                        name: "Skintific Bright Boost Masker Stick (Pink)",
+                        category: "masker",
+                        price: 470,
+                        stock: 18,
+                        image: "SkintificBrightBoostMaskerStick(Pink).png"
+                    },
+                    {
+                        id: 110,
+                        name: "Skintific Mugwort Clay Masker Stick (Ijo)",
+                        category: "masker",
+                        price: 450,
+                        stock: 20,
+                        image: "SkintificMugwortClayMaskerStick(Ijo).png"
+                    },
+                    {
+                        id: 111,
+                        name: "Skintific Mugwort Clay Masker Stick (Abu)",
+                        category: "masker",
+                        price: 450,
+                        stock: 20,
+                        image: "SkintificMugwortClayMaskerStick(Abu).png"
+                    },
+                    {
+                        id: 112,
+                        name: "Skintific Perfect Stay Velvet Matte Cushion",
+                        category: "sunscreen",
+                        price: 650,
+                        stock: 15,
+                        image: "cusen.png"
+                    },
+                    {
+                        id: 113,
+                        name: "Skintific Mugwort Purifying Micellar Water 300ml",
+                        category: "cleanser",
+                        price: 500,
+                        stock: 12,
+                        image: "SkintificMugwortPurifyingMicellarWater300ml.png"
+                    }
+                ]
+            }
+        ];
+
+        // Tampilkan Daftar Logo Brand
+        function showBrands() {
+            activeBrandId = null;
+            activeCategory = "all";
+
+            const container = document.getElementById("mainContainer");
+            const mainTitle = document.getElementById("mainSectionTitle");
+            const brandHeader = document.getElementById("brandHeaderView");
+            const filterWrapper = document.getElementById("categoryFilterWrapper");
+
+            brandHeader.style.display = "none";
+            filterWrapper.style.display = "none";
+            mainTitle.style.display = "block";
+            mainTitle.innerText = "Pilih Logo Brand";
+
+            let htmlContent = '<div class="brand-logo-grid">';
+            brandsData.forEach(brand => {
+                htmlContent += `
+                    <div class="brand-logo-card" onclick="showProductsByBrand('${brand.id}')">
+                        <img src="${brand.logo}" alt="Logo ${brand.name}" class="brand-logo-img">
+                        <div class="brand-logo-name">${brand.name}</div>
+                    </div>
+                `;
+            });
+            htmlContent += '</div>';
+
+            container.innerHTML = htmlContent;
+        }
+
+        // Tampilkan Produk Saat Logo Brand Diklik
+        function showProductsByBrand(brandId, catId = "all") {
+            activeBrandId = brandId;
+            activeCategory = catId;
+
+            const brand = brandsData.find(b => b.id === brandId);
+            if (!brand) return;
+
+            const container = document.getElementById("mainContainer");
+            const mainTitle = document.getElementById("mainSectionTitle");
+            const brandHeader = document.getElementById("brandHeaderView");
+            const currentBrandTitle = document.getElementById("currentBrandTitle");
+            const filterWrapper = document.getElementById("categoryFilterWrapper");
+
+            mainTitle.style.display = "none";
+            brandHeader.style.display = "flex";
+            currentBrandTitle.innerText = `Produk ${brand.name}`;
+
+            if (brand.categories && brand.categories.length > 0) {
+                let filterHtml = "";
+                brand.categories.forEach(cat => {
+                    const isActive = cat.id === activeCategory ? 'active' : '';
+                    filterHtml += `
+                        <button class="filter-btn ${isActive}" onclick="filterProducts('${cat.id}')">
+                            ${cat.label}
+                        </button>
+                    `;
+                });
+                filterWrapper.innerHTML = filterHtml;
+                filterWrapper.style.display = "flex";
+            } else {
+                filterWrapper.style.display = "none";
+            }
+
+            renderProductGrid();
+            document.getElementById("kategori-section").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Filter Produk berdasarkan kategori
+        function filterProducts(catId) {
+            activeCategory = catId;
+
+            const filterWrapper = document.getElementById("categoryFilterWrapper");
+            const buttons = filterWrapper.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(`'${catId}'`));
+            if (activeBtn) activeBtn.classList.add('active');
+
+            renderProductGrid();
+        }
+
+        // Render Produk berdasarkan Brand dan Kategori yang sedang dipilih
+        function renderProductGrid() {
+            const brand = brandsData.find(b => b.id === activeBrandId);
+            if (!brand) return;
+
+            const container = document.getElementById("mainContainer");
+
+            let filteredProducts = brand.products;
+            if (activeCategory !== "all") {
+                filteredProducts = brand.products.filter(p => p.category === activeCategory);
+            }
+
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 40px; color: #718096;">Tidak ada produk dalam kategori ini.</p>';
+                return;
+            }
+
+            let htmlContent = '<div class="product-grid">';
+            filteredProducts.forEach(product => {
+                const isOutOfStock = product.stock <= 0;
+                const isBundle = product.category === 'set';
+
+                htmlContent += `
+                    <div class="product-card">
+                        <div class="image-wrapper">
+                            ${isBundle ? '<span class="badge-bundle">PAKET HEMAT</span>' : ''}
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-meta">
+                                <span class="product-price">NT$ ${product.price.toLocaleString('en-US')}</span>
+                                <span class="product-stock ${isOutOfStock ? 'out-of-stock' : ''}">
+                                    ${isOutOfStock ? 'Kosong' : 'Tersedia'}
+                                </span>
+                            </div>
+                            <button
+                                class="btn-buy"
+                                onclick="buyProduct('${product.name}', ${product.price}, '${brand.name}')"
+                                ${isOutOfStock ? 'disabled' : ''}>
+                                ${isOutOfStock ? 'Stok Kosong' : 'Beli Sekarang'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            htmlContent += '</div>';
+
+            container.innerHTML = htmlContent;
+        }
+
+        // Fungsi Pembelian via WhatsApp
+        function buyProduct(productName, productPrice, brandName) {
+            const message = encodeURIComponent(
+                `Halo Glowinskincare taiwan, saya mau pesan:\n\n` +
+                `📦 *DETAIL PESANAN:*\n` +
+                `- Brand: ${brandName}\n` +
+                `- Produk: ${productName}\n` +
+                `- Harga: NT$ ${productPrice.toLocaleString('en-US')}\n\n` +
+                `👤 *DATA PEMESAN:*\n` +
+                `- Nama:\n` +
+                `- No. HP:\n` +
+                `- Alamat Lengkap:\n\n` +
+                `Mohon info total & cara pembayarannya. Terima kasih!`
+            );
+
+            const waLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+            window.open(waLink, '_blank');
+        }
+
+        // Jalankan pertama kali
+        showBrands();
+    </script>
+
+</body>
+</html>
